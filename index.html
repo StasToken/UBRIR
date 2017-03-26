@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="author" content="ff.0xff@yandex.ru" />
+	<meta name="Author" lang="ru" content="Борзых Станислав Альбертович" />
+      <link rel="stylesheet" type="text/css" href="html_files/css/index.css">
+      <title>Пример веб-страницы</title>
+   </head>
+   <body>
+      <noscript>
+         <p>
+            <font color="red">
+         <h1>Ваш браузер не поддерживает скрипты! или вы его не включили, пожалуйста включите JS или воспользуйтесь другим браузером</h1></font></p>
+      </noscript>
+      <div class="centr">
+         <div id="server">
+            <b>ID банера который вернул сервер: <span id='result'></span></b><br>
+            <button onclick="startBtn()" autofocus>Запустить генератор запросов</button>
+            <a name="button">
+               <hr>
+               ID банера генерируются линейно, я не стал заморачиваться сделал обычный инкремент. выполняется AJAX запрос на frontend/index.php
+               Сервер возвращает ответ в формате JSON.<br> <a href="frontend/listdb.php" target="_blank">Таблица Frontend сервера</a> <a href="backend/listdb.php" target="_blank">Таблица Backend сервера</a> 
+         </div>
+         <div id="author">
+         <b>Автор:</b> Борзых Станислав Альбертович<br>
+         <b>Телфон:</b> +79920138439<br>
+         <b>Email:</b> ff.0xff@yandex.ru<br>
+         <b>GitHub:</b> <a href="https://github.com/StasToken/UBRIR/tree/master">Ссылка на этот проект</a>
+         <hr>
+         Использовался стэк:
+         <ul type="square">
+         <li>PHP 7.0.15</li>
+         <li>MySQL 5.7.12</li>
+         <li>JavaScript</li>
+         </ul> 
+         </div>
+      </div>
+      <div class="centr">
+         <div id="note">
+            <span id="noteHead">
+               <h2>Записка к проекту</h2>
+            </span>
+            <br>
+            <h3>Содержание</h3>
+            <ul type="square">
+               <li><a href="#_1">О этой странице</a></li>
+               <li><a href="#_2">Подготовка скрипта к работе</a></li>
+               <li><a href="#_3">Справка по таблице базы данных</a></li>
+               <li><a href="#_4">Представленое задание</a></li>
+            </ul>
+            <hr>
+            <a name="_1">
+               <h3>О этой странице</h3>
+               <br>
+               Данная страница эмулирует собой сайт который по условиям задания должен посылать запросы к Front end серверу.
+               Так же в ней содержится некоторая пояснительная информация которая поможет вам подготовить и проверить скрипт в "боевом" режиме.
+               Для того что бы начать работу выполните настройку и кликните на кнопку сверху "
+            <a href="#button">Запустить генератор запросов</a>"
+            <hr>
+            <a name="_2">
+            <h3>Подготовка скрипта к работе</h3>
+            <br>
+            Для подготовки скрипта к работе необходимо:
+            <br>
+            1) Импортировать базу данных для Front end и Back end сервера<br> 
+            Структуру базы данных можно взять из  <b>statistics_bk.sql</b> и <b>statistics_fr.sql</b> файлов из корневой папки проекта.<br> 
+            2) В файле <b>./frontend/Config.php</b> и <b>./backend/Config.php</b> задайте реквизиты доступа к базе данных, так же задайте переменную <b>$backendHost</b>
+            которая должна содержать в себе путь до Back end сервера и скрипта который принимает входящие запросы<br>
+            Например:<br>
+            <b>http://localhost/backend/index.php</b><br>
+            или<br>
+            <b>http://127.0.0.1/backend/index.php</b><br>
+            Обратите внимание если Front end и Back end сервер размещаются на одном сервере но на разных виртуальных хостах, проверьте возможность доступа к ним, Front end сервер нужно разместить вместе с этой страницей, сохраняя структуру каталогов.<br> 
+            Для простоты тестирование проекта я разместил все на одном хосте, просто в разных папках.  
+            <hr>
+            <a name="_3">
+            <h3>Справка по таблице базы данных</h3>
+            <br>
+            База данных Front end сервера содержит столбцы:
+            <ul type="square">
+               <li><b>id</b> - уникальный id в таблице (AUTO_INCREMENT)</li>
+               <li><b>id_baner</b> - идентификатор банера</li>
+               <li><b>add_date</b> - время занесения статистики в базу данных </li>
+               <li><b>progress</b> - статус отсылки очереди на Back end сервер ( принимает 0 (false) если не был еще отослан, и 1 (true) если уже был отослан </li>
+            </ul>
+            База данных Back end сервера содержит столбцы:
+            <ul type="square">
+               <li><b>id</b> - уникальный id в таблице (AUTO_INCREMENT)</li>
+               <li><b>id_baner</b> - идентификатор банера</li>
+               <li><b>add_date</b> - время занесения статистики в базу данных (на Front end сервере) </li>
+               <li><b>add_local_date</b> - время занесения статистики в базу данных Back end сервер </li>
+            </ul>
+            <hr>
+            <a name="_4">
+            <h3>Представленое задание</h3>
+            <br>
+            Есть некий вебсайт на котором показывается баннерная реклама с частотой показов до 200шт в минуту. 
+            Каждый показ баннера порождает ajax запрос к серверу для сохранения статистики, и возвращает в браузер id сохраненного показа. 
+            Время ответа от сервера не должно превышать 1 секунду. 
+            При этом параллельно с сохранением статистика на сервере должен уходить запрос в бэк систему, ответ на который занимает 10-15 секунд. 
+            Необходимо реализовать механизм создания очереди и отправки запросов в бэк систему с сохранением результата оправки в таблицу статистики на сервере. 
+            Задержка между показом баннера и сохранением информации на бэк системе не должна превышать 5 минут. 
+            стек:php7 + mysql + js
+         </div>
+      </div>
+      <script>
+         var id_baner=0;
+         
+         function startTest() {
+         	++id_baner;
+         	var xhr = new XMLHttpRequest();
+         	xhr.open('GET', 'frontend/index.php?id_baner='+id_baner, false);
+         	xhr.send();
+         	if (xhr.status != 200) {
+           	alert( 'Ошибка AJAX запроса к серверу: ' + xhr.status + ': ' + xhr.statusText );
+         	} else {
+         	document.getElementById('result').innerHTML =JSON.parse(xhr.responseText);	
+         	}
+         
+         }
+         
+         function generateBaner(){   
+         	startTest();
+         }
+         
+         function startBtn(){
+         var timerId = setInterval(function() {
+           	generateBaner()
+         	}, 0333);
+         }
+           
+      </script>
+   </body>
+</html>
+
+
